@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    layout:decorate="BaseMaster">
+<head>
+    <meta charset="UTF-8">
+    <Link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css"/>
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content1">
+<div class="container">
+    <div class="card">
+        <div class="card-header">Liste patient</div>
+        <div class="card-body">
+<form method="get">
+    <label></label>
+    <input type="text" name="keyword" th:value="${keyword}">
+    <button type="submit" class="btn btn-primary">Chercher</button>
+</form>
+
+<table class="table caption-top">
+
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Date</th>
+
+        <th>Malade</th>
+        <th>Score</th>
+
+    </tr>
+    </thead>
+    <tr th:each="p:${mypatients}">
+        <td th:text="${p.getId()}"></td>
+
+        <td th:text="${p.getNom()}">
+
+        </td>
+        <td th:text="${p.getDatenaissance()}"></td>
+
+        <td th:text="${p.isMalade()}"></td>
+
+        <td th:text="${p.getScore()}"></td>
+
+        <td sec:authorize='hasRole("ADMIN")'><a onclick="return confirm('are you sure')" class="btn btn-danger" th:href="@{delete(id=${p.getId()},page=${currentpage},keyword=${keyword})}" th:text="Delete"></a></td>
+        <td ><a class="btn btn-success" th:href="@{edit(id=${p.getId()},page=${currentpage},keyword=${keyword})}">Edit</a> </td>
+    </tr>
+</table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" >
+                    <li th:class="${(status.index==currentpage)?'page-item me-1 active':'page-item me-1'}" th:each="p,status:${nbpage}">
+                        <a class="page-link" th:href="@{index(page=${status.index},keyword=${keyword})}" th:text="${status.count}"></a>
+<!--                  <p th:text="${status}"></p>-->
+                    </li>
+                </ul>
+            </nav>
+    </div>
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
