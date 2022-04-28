@@ -1,5 +1,6 @@
 package com.example.secondproj.security;
 
+import com.example.secondproj.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource datasource;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder passwordEncoder=passwordEncoder();
+       // PasswordEncoder passwordEncoder=passwordEncoder();
 //        PasswordEncoder p=new BCryptPasswordEncoder();
 //        String pass=p.encode("1234");
 //
@@ -28,34 +34,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.inMemoryAuthentication().withUser(  "user1").password(pass).roles("USER");
 //        auth.inMemoryAuthentication().withUser(  "user2").password (pass).roles("USER");
 //        auth.inMemoryAuthentication().withUser( "admin").password (pass).roles("USER","ADMIN");
-        auth.jdbcAuthentication().dataSource(datasource).usersByUsernameQuery("select username as principal,password as credentials,active from user where username=?")
-                .authoritiesByUsernameQuery("select username as principal, role as role from users_roles where username=?")
-                .rolePrefix("ROLE_").passwordEncoder(new BCryptPasswordEncoder());
+
+//        auth.jdbcAuthentication().dataSource(datasource).usersByUsernameQuery("select username as principal,password as credentials,active from user where username=?")
+//                .authoritiesByUsernameQuery("select username as principal, role as role from users_roles where username=?")
+//                .rolePrefix("ROLE_").passwordEncoder(new BCryptPasswordEncoder());
+
+        auth.userDetailsService(userDetailsService);
 //
-//        auth.jdbcAuthentication ()
-//                .dataSource (datasource)
-//                .usersByUsernameQuery("select username as principal, password as credentials,active from user where username=?")
-//                .authoritiesByUsernameQuery ("select username as principal, role as role from users_roles where username=?")
-//                .rolePrefix("ROLE_")
-//                .passwordEncoder (passwordEncoder);
+//
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin();
         http.authorizeRequests().antMatchers("/").permitAll();
-        http.authorizeRequests().antMatchers("/index/**").hasRole("USER");
+        http.authorizeRequests().antMatchers("/index/**").hasAuthority("USER");
 
-        http.authorizeRequests().antMatchers("/delete/**","/edit/**","/save/**","/formPatients/**").hasRole("ADMIN");
-
+        http.authorizeRequests().antMatchers("/delete/**","/edit/**","/save/**","/formPatients/**").hasAuthority("ADMIN");
+        http.authorizeRequests().antMatchers("/webjars/**").permitAll();
 
         http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().accessDeniedPage("/403");
 
     }
-    @Bean
-    PasswordEncoder passwordEncoder()
-    {
-        return new BCryptPasswordEncoder();
-    }
+
 }

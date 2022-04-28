@@ -45,8 +45,8 @@
 
         <td th:text="${p.getScore()}"></td>
 
-        <td sec:authorize='hasRole("ADMIN")'><a onclick="return confirm('are you sure')" class="btn btn-danger" th:href="@{delete(id=${p.getId()},page=${currentpage},keyword=${keyword})}" th:text="Delete"></a></td>
-        <td ><a class="btn btn-success" th:href="@{edit(id=${p.getId()},page=${currentpage},keyword=${keyword})}">Edit</a> </td>
+        <td sec:authorize='hasAuthority("ADMIN")'><a onclick="return confirm('are you sure')" class="btn btn-danger" th:href="@{delete(id=${p.getId()},page=${currentpage},keyword=${keyword})}" th:text="Delete"></a></td>
+        <td sec:authorize='hasAnyAuthority("ADMIN")'><a class="btn btn-success" th:href="@{edit(id=${p.getId()},page=${currentpage},keyword=${keyword})}">Edit</a> </td>
     </tr>
 </table>
             <nav aria-label="Page navigation example">
