@@ -1,21 +1,14 @@
 package com.example.secondproj;
 
-import com.example.secondproj.PatientRepo.PatientRepo;
-import com.example.secondproj.entities.Patient;
 import com.example.secondproj.security.Repositories.AppRoleRepository;
-import com.example.secondproj.security.entities.AppRole;
+//import com.example.secondproj.PatientRepo.CommandeRepo;
 import com.example.secondproj.security.service.SecurityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Date;
 
 @SpringBootApplication
 public class SecondProjApplication  {
@@ -54,9 +47,27 @@ PasswordEncoder passwordEncoder()
     return new BCryptPasswordEncoder();
 }
     @Bean
-     CommandLineRunner saveUsers(SecurityService secService, AppRoleRepository rolerep)
+     CommandLineRunner saveUsers(SecurityService secService,  AppRoleRepository rolerep)
     {
         return args -> {
+//            Client cl= new Client();
+//            cl.setNom("heeho");
+//            cl.setDatenaissance(new Date());
+//
+//            clrp.save(cl);
+
+
+
+//            Commande cd = new Commande();
+//            cd.setChecked(true);
+//            cd.setCls(clrp.findById(1L).get());
+//            cmrep.save(cd);
+
+//            cd.setCommande(new Date());
+////            cd.setValid(true);
+//            cd.setCls(clrp.findById(1L).get());
+//            cmd.save(cd);
+//            System.out.println(cmd.findByValid(false));
 //            secService.saveNewUser("achraf","1234","1234");
 //            secService.saveNewUser("adam","1234","1234");
 //            secService.saveNewUser("admin","admin","admin");
@@ -69,7 +80,7 @@ PasswordEncoder passwordEncoder()
 //            secService.addRoleToUser("achraf","USER");
 //            secService.addRoleToUser("adam","USER");
 //            secService.addRoleToUser("admin","ADMIN");
-            secService.addRoleToUser("admin","USER");
+//            secService.addRoleToUser("admin","USER");
 
         };
     }

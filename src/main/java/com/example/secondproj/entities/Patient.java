@@ -10,12 +10,15 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
+
 @Data @Entity @NoArgsConstructor @AllArgsConstructor
 public class Patient {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
     @Size(min = 4,max = 100)
+    @Column(unique = true)
     private String nom;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -23,4 +26,6 @@ public class Patient {
     private boolean malade;
     @DecimalMin("100")
     private int score;
+    @OneToMany(mappedBy = "patient")
+    private List<RendezVous> rendezVous;
 }

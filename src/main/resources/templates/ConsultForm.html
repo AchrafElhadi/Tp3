@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="adminpage">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content1">
+  <div class="container" style="width:60%;margin-top: 50px">
+
+    <form class="row g-3" method="post" th:action="@{/Admin/Consultation/Create}">
+
+      <div class="col-md-6">
+        <label for="rapport_consultation" class="form-label">rapport consultation</label>
+        <input type="text" class="form-control"  name="rapport_consultation" id="rapport_consultation">
+      </div>
+      <div class="col-md-6">
+        <label for="date_consultation" class="form-label">date consultation</label>
+        <input type="date" name="date_consultation" class="form-control" id="date_consultation">
+
+      </div>
+
+      <div class="col-12">
+        <label for="prix_consultation" class="form-label">prix consultation</label>
+        <input type="number" name="prix_consultation"  class="form-control" id="prix_consultation">
+      </div>
+
+      <div class="d-grid gap-2  col-6 mx-auto">
+        <button class="btn btn-outline-primary" type="submit">Create</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+</body>
+</html>

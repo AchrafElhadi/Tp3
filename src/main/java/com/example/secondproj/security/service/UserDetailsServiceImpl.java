@@ -22,6 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser appuser= secService.LoadUserByUserName(username);
         Collection<GrantedAuthority> grantedAuthorities=new ArrayList();
+
         appuser.getAppRoles().forEach(v->{
             SimpleGrantedAuthority grantauth= new SimpleGrantedAuthority(v.getRoleName());
             grantedAuthorities.add(grantauth);

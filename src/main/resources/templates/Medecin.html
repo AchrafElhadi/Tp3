@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="adminpage">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content1">
+    <div class="container" style="margin-top: 50px">
+        <form method="get">
+            <label></label>
+            <input type="text" name="chercher" th:value="${chercher}" >
+            <button type="submit" class="btn btn-primary">Chercher</button>
+        </form>
+        <table class="table caption-top">
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Email</th>
+
+                <th>Specialite</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p:${med}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.nom}"></td>
+                <td th:text="${p.email}"></td>
+                <td th:text="${p.specialite}"></td>
+                <td sec:authorize='hasAuthority("ADMIN")'><a th:href="@{/User/Medecin/Edit(id=${p.id},page=${currentpage},chercher=${chercher} )}" class="btn btn-outline-success" th:text="Edit"></a> </td>
+                <td sec:authorize='hasAuthority("ADMIN")' ><a th:href="@{/User/Medecin/Delete(id=${p.id},page=${currentpage})}" onclick="return confirm('are you sure ? ')" class="btn btn-outline-danger">Delete</a> </td>
+            </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" >
+                <li th:class="${(status.index==currentpage)?'page-item me-1 active':'page-item me-1'}" th:each="p,status:${size}">
+                    <a class="page-link" th:href="@{/User/Medecin(page=${status.index} )}" th:text="${status.count}"></a>
+                    <!--                  <p th:text="${status}"></p>-->
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</body>
+</html>
